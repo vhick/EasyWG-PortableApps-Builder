@@ -1,0 +1,49 @@
+EasyWG Portable - independent community PortableApps-style package
+
+START: Double-click EasyWGPortable.exe, NOT App\EasyWG\EasyWG.exe.
+
+The root compiled launcher copies the official, untouched EasyWG.exe into
+Data\Runtime\EasyWG.exe and starts it there. Upstream stores EasyWG.ini,
+imported ZIP profiles, downloaded tunnel.dll/wireguard.dll/wintun.dll and
+related companion files beside the running EXE. These live under Data\Runtime.
+
+You can put your WireGuard .conf file directly in Data\Runtime before selecting
+it in EasyWG. It may contain a private key. Do not share, publish, or upload
+Data (including .conf, INI, backups or recovered credentials).
+
+IMPORTANT: connecting a VPN requires Windows Tunnel service and networking
+components, possibly administrator approval. This is not a zero-OS-trace app.
+The temporary service must be stopped by using Disconnect and then exiting
+EasyWG from its system tray before moving, updating, or ejecting the folder.
+Never remove a driver, network adapter, or service belonging to another VPN.
+
+Upgrades: make sure EasyWG fully exits, back up Data, then replace App, Other,
+root EasyWGPortable.exe and metadata from new ZIP. NEVER replace existing Data.
+The launcher stages the upgraded official binary into Data\Runtime and preserves
+INI, user profiles, core DLLs, recovered secrets and the app's own files.
+
+Rollback: close the app and disconnect, backup Data, restore prior package
+binaries/metadata, then launch again. Upstream INI schema/core DLL downgrades
+may be incompatible; restore the matching Data backup when necessary.
+
+Autostart is OFF unless enabled in EasyWG options. When enabled, EasyWG
+creates an intentional per-user HKCU Run entry. On normal exit the wrapper
+rewrites its exact OWN entry to EasyWGPortable.exe so startup goes through
+the launcher. Existing same-name entries for OTHER software are restored at
+normal exit if they were affected, but collision is possible DURING runtime.
+The upstream UI directly writes the same Run value and crash recovery is not
+proven. If you have another EasyWG installed, leave autostart OFF. Relocation
+of enabled startup paths requires explicit user repair or disabling/re-enabling.
+The launcher does not automatically clean arbitrary Windows registry entries.
+
+Windows may still preserve service history, events, DNS and network caches,
+notification data, prefetch, security event logs and driver/network state.
+Temporary scripts in system TEMP are created by the upstream application,
+with source-defined cleanup; interrupted operations may leave files. The
+community launcher does not sweep shared TEMP. Source download/bootstrap
+behavior and core DLL redistribution licenses are separate from app MIT.
+
+Build identity and source attribution: Other\Source\BUILD-IDENTITY.json.
+Official source: https://github.com/Terence0816/easy-wg-portable
+The package is not official WireGuard and is not an official PortableApps.com
+certified installer.

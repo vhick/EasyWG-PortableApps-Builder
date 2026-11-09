@@ -1,0 +1,11 @@
+/build/
+/dist/
+/src/appicon.ico
+*.paf.exe
+*.obj
+*.res
+*.exe
+*.conf
+Data/
+*.pfx
+*.key
