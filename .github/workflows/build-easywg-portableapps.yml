@@ -67,7 +67,7 @@ jobs:
           engine: custom-nsis
           running-exe: EasyWGPortable.exe
           timeout-seconds: '900'
-          package-revision: r1
+          package-revision: r2
       - name: Independently check installer PE, published checksum and embedded files
         if: steps.existing.outputs.skip != 'true'
         env:
@@ -93,7 +93,7 @@ jobs:
         with:
           files: 'dist/*.zip;dist/installers/*.paf.exe'
           tag: ${{ steps.upstream.outputs.release_tag }}
-          release-title: EasyWG PortableApps ${{ steps.upstream.outputs.version }} b1r1
+          release-title: EasyWG PortableApps ${{ steps.upstream.outputs.version }} b1r2
           tag-prefix: portable-
           keep-releases: '3'
           prune: 'false'
@@ -104,7 +104,7 @@ jobs:
         with:
           files: 'dist/*.zip;dist/installers/*.paf.exe'
           tag: ${{ steps.upstream.outputs.release_tag }}
-          release-title: EasyWG PortableApps ${{ steps.upstream.outputs.version }} b1r1
+          release-title: EasyWG PortableApps ${{ steps.upstream.outputs.version }} b1r2
           tag-prefix: portable-
           keep-releases: '3'
           prune: 'false'

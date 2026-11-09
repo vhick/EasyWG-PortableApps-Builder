@@ -1,4 +1,4 @@
-# EasyWG PortableApps Builder b1r1
+# EasyWG PortableApps Builder b1r2
 
 **Mode: PORTABLEAPPS only**. Builds a validated ZIP plus an independent *custom-NSIS PortableApps-style* `.paf.exe` installer from the author's genuine Windows EasyWG release. The builder runs on hosted **Windows Server 2022 / x64 GitHub Actions**. No local compiler, fork, manual Git initialization, or private action is necessary.
 
@@ -13,10 +13,10 @@ Tagged upstream `src/main.cpp` uses `GetModuleDirectory()` to locate `EasyWG.ini
 1. In GitHub, click **New repository**, name it `EasyWG-PortableApps-Builder`. Choose public or private. Do **not** fork the upstream repository. Ensure **Actions** is allowed.
 2. Open GitHub Desktop, **File > Clone repository**, select your new repository.
 3. Extract the entire builder kit ZIP into your cloned repository folder. Include the hidden `.github` directory and all subfolders. Do **not** place the kit inside an extra nested folder.
-4. In GitHub Desktop, write commit summary `Initial EasyWG PortableApps builder b1r1`, then **Commit to main** and **Push origin**.
+4. In GitHub Desktop, write commit summary `Fix EasyWG launcher MSVC linker dependency (b1r2)`, then **Commit to main** and **Push origin**.
 5. Open your repository on GitHub. Go to **Actions > EasyWG Portable - Build ZIP and Installer > Run workflow**. Leave upstream version as `latest` or specify an exact stable tag such as `v0.2.9.2`.
 6. Inspect all logs. Look for source/tag/asset digest resolution, **MSVC compile**, **ZIP validation**, shared **custom-NSIS build**, installer validation, dry-run, and real publication. A red workflow means the release is not fully verified.
-7. Click **Releases** in the builder repository. Download the `EasyWGPortable-...zip` or the separate `...custom-nsis-r1.paf.exe` and `SHA256SUMS.txt` generated automatically by the shared publisher.
+7. Click **Releases** in the builder repository. Download the `EasyWGPortable-...zip` or the separate `...custom-nsis-r2.paf.exe` and `SHA256SUMS.txt` generated automatically by the shared publisher.
 8. Verify the downloaded file hash in Windows PowerShell: `Get-FileHash 'C:\path\to\download.zip' -Algorithm SHA256`. Compare with `SHA256SUMS.txt`.
 9. **ZIP:** Extract it into a permanent/USB folder (for example, `D:\PortableApps\EasyWGPortable`) and start `EasyWGPortable.exe`. **Installer:** run the independent PortableApps-style installer, choose destination, then use PortableApps Platform **Apps > Refresh App Icons**.
 10. Import/select your `.conf` file (prefer copying it into `Data\Runtime` first) and connect only on machines/networks you are authorized to access. Accept elevation only if you intend to create the tunnel service. Before moving/ejecting/updating, click **Disconnect**, then **Exit** in the tray, and wait until EasyWG processes stop.
@@ -88,3 +88,15 @@ EasyWGPortable/
 7. Examine Windows Event Viewer, system TEMP, registry and Windows service/driver history. Do not interpret unavoidable Windows activity as a bug unless app-owned permanent state is proven.
 
 See `docs/AUDIT.md`, `docs/TROUBLESHOOTING.md`, and `docs/PORTABLE-RUNTIME.txt` for limitations and recovery details.
+
+
+## b1r2 change / GitHub Actions linker regression
+
+- Fixed the GitHub Actions Windows MSVC `LNK2019` unresolved external `__imp_MessageBoxW` error by linking `User32.lib` in both the launcher source (`#pragma comment`) and the explicit Windows linker command. Microsoft documents `User32.lib` as the required import library for `MessageBoxW`.
+- Added focused offline tests to verify that both link declarations remain present and that the workflow package revision is synchronized.
+- Bumped builder identity from `b1r1` to `b1r2` and installer package revision from `r1` to `r2`; verified upstream EasyWG binary selection and pinned shared actions were otherwise unchanged.
+- The error in build log `logs_115502759988.zip` stopped at launcher linking. This change has passed offline checks; it has NOT yet been compiled or interactively tested on a Windows runner.
+
+**Suggested GitHub Desktop commit summary:** `Fix MSVC MessageBoxW linker error (EasyWG b1r2)`
+
+To update an existing builder repository, replace its source files with this complete kit, then commit and push. The new workflow will run `b1r2` with `package-revision: r2`; it does not delete old published releases or existing portable user `Data`.

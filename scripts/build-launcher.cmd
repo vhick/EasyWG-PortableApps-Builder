@@ -10,7 +10,7 @@ call "%VSROOT%\VC\Auxiliary\Build\vcvars64.bat" >nul
 if errorlevel 1 exit /b 3
 rc /nologo /I "src" /fo"build\EasyWGPortable.res" "src\EasyWGPortable.rc"
 if errorlevel 1 exit /b 4
-cl /nologo /std:c++17 /EHsc /utf-8 /O2 /W4 /MT /DUNICODE /D_UNICODE "src\EasyWGPortable.cpp" "build\EasyWGPortable.res" /link /SUBSYSTEM:WINDOWS /OUT:"build\EasyWGPortable\EasyWGPortable.exe"
+cl /nologo /std:c++17 /EHsc /utf-8 /O2 /W4 /MT /DUNICODE /D_UNICODE "src\EasyWGPortable.cpp" "build\EasyWGPortable.res" /link /SUBSYSTEM:WINDOWS user32.lib /OUT:"build\EasyWGPortable\EasyWGPortable.exe"
 if errorlevel 1 exit /b 5
 if not exist "build\EasyWGPortable\EasyWGPortable.exe" exit /b 6
 exit /b 0

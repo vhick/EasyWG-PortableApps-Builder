@@ -30,6 +30,21 @@ class BuilderTests(unittest.TestCase):
   self.assertNotIn('TerminateProcess(',text)
   self.assertNotIn('RegDeleteTree',text)
   self.assertNotIn('RemoveDirectoryW(',text)
+ def test_win32_messagebox_link_contract(self):
+  """Regression for LNK2019 __imp_MessageBoxW seen on Windows CI."""
+  cpp=(ROOT/'src/EasyWGPortable.cpp').read_text('utf-8')
+  cmd=(ROOT/'scripts/build-launcher.cmd').read_text('utf-8')
+  self.assertIn('MessageBoxW(',cpp)
+  self.assertIn('#pragma comment(lib, "user32.lib")',cpp)
+  self.assertRegex(cmd.lower(),r'/link[^\n]*\buser32\.lib\b')
+  self.assertIn('/SUBSYSTEM:WINDOWS',cmd)
+ def test_builder_and_installer_revision_consistent(self):
+  release=(ROOT/'scripts/release.py').read_text('utf-8')
+  workflow=(ROOT/'.github/workflows/build-easywg-portableapps.yml').read_text('utf-8')
+  self.assertEqual(module.REV,'b1r2')
+  self.assertIn("'package_revision':'r2'",release)
+  self.assertIn('package-revision: r2',workflow)
+  self.assertIn(' b1r2',workflow)
  def test_workflow_safety(self):
   txt=(ROOT/'.github/workflows/build-easywg-portableapps.yml').read_text('utf-8')
   self.assertIn('vhick/Portable-Package-Builder@0112c35580e83b37eb8757ebcb949274e1631a04',txt)

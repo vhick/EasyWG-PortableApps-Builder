@@ -5,7 +5,7 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 BUILD=ROOT/'build'; STAGE=BUILD/'EasyWGPortable'; DIST=ROOT/'dist'
 REPO='Terence0816/easy-wg-portable'
 API=f'https://api.github.com/repos/{REPO}'
-REV='b1r1'
+REV='b1r2'
 # Observed on the official GitHub expanded-assets page for this exact stable release.
 KNOWN_OFFICIAL_DIGESTS={'v0.2.9.2':'f65c059a8304d80733eb9fa8a81f942d4e45a848eeab43a7cf5d9f5739931dbc'}
 
@@ -92,7 +92,7 @@ def resolve(version):
     (BUILD/'upstream-main.cpp').write_bytes(code)
     manifest={'project':REPO,'upstream_tag':tag,'upstream_commit':commit,'upstream_main_cpp_sha256':sha(code),
       'tagged_source_zip_sha256':sha(srcdata),'official_binary_sha256':digest,'official_binary_size':len(content),
-      'source_release_asset_url':url,'binary_verification':verification,'builder_revision':REV,'builder_commit':builder_commit,'package_revision':'r1',
+      'source_release_asset_url':url,'binary_verification':verification,'builder_revision':REV,'builder_commit':builder_commit,'package_revision':'r2',
       'mode':'PORTABLEAPPS','package_version':tag.lstrip('vV'),'release_tag':f'portable-{tag}-{REV}-{commit[:8]}-{digest[:10]}-{builder_commit[:8]}',
       'shared_installer':'vhick/Portable-Package-Builder@0112c35580e83b37eb8757ebcb949274e1631a04',
       'shared_publisher':'vhick/portable-release-publisher@cb64f86ac2d8c67506db5832de07f9ff58cbeaeb'}

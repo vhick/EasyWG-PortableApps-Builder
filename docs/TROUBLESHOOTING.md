@@ -12,3 +12,14 @@
 - **Upgrade corruption:** Exit/disconnect, make a complete current `Data` backup, restore the prior ZIP's `App`/`Other`/launcher, then if schema incompatibility exists restore the matching prior `Data` backup. Do not recursively erase user files.
 - **Potential private key disclosure:** Treat `Data/Runtime/*.conf`, `EasyWG.ini`, backups, downloaded profiles and any saved diagnostic as sensitive. Never upload those to public issues or GitHub CI.
 - **Failure during service cleanup:** Do not force-remove Windows services based merely on a similar name. Inspect the exact service image path, source, ownership and active use before authorized repair; the automated kit never performs broad deletion.
+
+
+## b1r1 GitHub Actions error: LNK2019 __imp_MessageBoxW / LNK1120
+
+**Symptom:** The `Build genuine Windows x64 C++ PortableApps launcher` step fails with `unresolved external symbol __imp_MessageBoxW`. This occurs after successful source download, staging and compilation but before any ZIP or installer is produced.
+
+**Cause:** The launcher uses `MessageBoxW` from the Windows User32 import library; `User32.lib` was not linked in b1r1.
+
+**Resolution in b1r2:** The source declares `#pragma comment(lib, "user32.lib")` and the MSVC invocation explicitly passes `user32.lib` after `/link`. Two offline regression tests check linker contract and synchronized release revisions. Replace the complete builder repo contents with b1r2, commit/push and rerun the main GitHub workflow. A successful hosted Windows linker run is required before treating this issue as confirmed resolved.
+
+Do not attempt to fix this by installing User32.dll or copying DLLs into the application ZIP. `User32.lib` is a Windows SDK import library that the hosted Visual Studio build tools already provide.

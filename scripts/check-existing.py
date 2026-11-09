@@ -3,7 +3,7 @@ import json,os,urllib.error,urllib.request
 repo=os.environ['GITHUB_REPOSITORY'];tag=os.environ['RELEASE_TAG'];token=os.environ['GITHUB_TOKEN']
 url=f'https://api.github.com/repos/{repo}/releases/tags/{tag}'
 req=urllib.request.Request(url,headers={'Accept':'application/vnd.github+json','Authorization':'Bearer '+token,
-  'X-GitHub-Api-Version':'2022-11-28','User-Agent':'EasyWGPortable-Builder/b1r1'})
+  'X-GitHub-Api-Version':'2022-11-28','User-Agent':'EasyWGPortable-Builder/b1r2'})
 try:
  with urllib.request.urlopen(req,timeout=45) as r:
   record=json.load(r)

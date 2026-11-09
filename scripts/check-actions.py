@@ -5,10 +5,10 @@ for repo,tag,commit,inputs,outputs in (
  ('portable-release-publisher','v1.1.1','cb64f86ac2d8c67506db5832de07f9ff58cbeaeb',('files','tag','release-title','tag-prefix','keep-releases','prune','dry-run'),()),
 ):
  url=f'https://raw.githubusercontent.com/vhick/{repo}/{tag}/action.yml'
- request=urllib.request.Request(url,headers={'User-Agent':'EasyWGPortable-Builder/b1r1'})
+ request=urllib.request.Request(url,headers={'User-Agent':'EasyWGPortable-Builder/b1r2'})
  with urllib.request.urlopen(request,timeout=60) as r:tag_bytes=r.read()
  pin_url=f'https://raw.githubusercontent.com/vhick/{repo}/{commit}/action.yml'
- with urllib.request.urlopen(urllib.request.Request(pin_url,headers={'User-Agent':'EasyWGPortable-Builder/b1r1'}),timeout=60) as r:pin_bytes=r.read()
+ with urllib.request.urlopen(urllib.request.Request(pin_url,headers={'User-Agent':'EasyWGPortable-Builder/b1r2'}),timeout=60) as r:pin_bytes=r.read()
  if tag_bytes != pin_bytes:raise RuntimeError(f'Pinned tag no longer maps to expected immutable action bytes: {repo}@{tag}')
  body=pin_bytes.decode('utf-8')
  for field in inputs+outputs:
